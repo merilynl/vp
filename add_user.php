@@ -50,7 +50,8 @@
 			
 			
             //kui kõik kombes, salvestame uue kasutaja
-            if(empty($firstname_error) and empty($last_name_error) and empty($birth_month_error) and empty($birth_year_error) and empty($birth_day_error) and empty($birth_date_error) and empty($gender_error) and empty($email_error) and empty($password_error) and empty($confirm_password_error)){
+            if(empty($first_name_error) and empty($last_name_error) and empty($birth_month_error) and empty($birth_year_error) and empty($birth_day_error) and empty($birth_date_error) and empty($gender_error) and empty($email_error) and empty($password_error) and empty($confirm_password_error)){
+				echo "salvestan";
 				//salvestame kasutaja
 				//loon andmebaasiga ühenduse
 				//server, kasutaja, parool, andmebaas
@@ -61,8 +62,9 @@
 				echo $conn->error;
 				//krüpteerime parooli
 				$pwd_hash = password_hash($_POST["password_input"], PASSWORD_DEFAULT);
-				$stmt->bind_param("sssiss", $firstname, $lastname, $birthdate, $gender, $email, $pwd_hash );
+				$stmt->bind_param("sssiss", $first_name, $last_name, $birth_date, $gender, $email, $pwd_hash);
 				$stmt->execute();
+				echo $stmt->error;
 				//sulgeme käsu
 				$stmt->close();
 				//andmebaasiühenduse kinni
