@@ -1,5 +1,5 @@
 <?php
-	require_once "../config_vp2022.php";
+	require_once "../../config_vp2022.php";
 	//echo $server_host;
 
 	$author_name = "merx";
