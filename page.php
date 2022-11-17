@@ -1,6 +1,21 @@
 <?php
+	session_start();
 	require_once "../../config_vp2022.php";
+	require_once "fnc_user.php";
+	require_once "fnc_gallery.php";
+	require_once "classes/Example.class.php";
 	//echo $server_host;
+	
+	
+/* 	klassi demo
+	$our_variable = new Example(9);
+	$my_variable = new Example(4);
+	echo $our_variable->public_value;
+	$my_variable->add();
+	unset($our_variable);
+	unset($my_variable);
+	echo $our_variable->public_value; */
+	
 
 	$author_name = "merx";
 	$full_time_now = date("d.m.Y H:i:s");
@@ -115,9 +130,8 @@
 	}//foreach
 	
 	//var_dump($all_files);
+	//loon muutuja, mis valib hiljem suvalise pildi
 	$photo_number = mt_rand(0, count($photo_files) - 1);
-
-
 	
 	//vaatame, mida vormis sisestati
 	//var_dump($_POST);
@@ -195,7 +209,24 @@
 			$conn->close();
 		}
 	}
+//!!!!!!!!!!!!!!!!!!!!sisselogimine!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!	
+
+    $email = null;
+    $password = null;
+    $email_error = null;
+    $password_error = null;
+	$login_error = null;
+	//echo("Enne logini");
+
+    //if($_SERVER["REQUEST_METHOD"] == "POST"){
+	if (isset($_POST["user_data_submit"]) and !empty($_POST["user_data_submit"])){
+		//login sisse
+		//echo("test login");
+		$login_error = sign_in($_POST["email_input"], $_POST["password_input"]);
+    }
 	
+	$privacy = 3;
+	$limit = 1;
 ?>
 
 <!DOCTYPE html>
@@ -207,7 +238,7 @@
 
 <body>
 	<img src="https://greeny.cs.tlu.ee/~rinde/vp_2022/vp_banner_gs.png" alt="Banner">
-	<h1>Merilyn</h1>
+	<h1>Veebilehe tegi Merilyn</h1>
 	<p>See leht on loodud õppetöö raames ja ei sisalda tõsiseltvõetavat sisu!</p>
 	<p>Õppetöö toimus <a href="https://www.tlu.ee" target="_blank">Tallinna Ülikoolis</a></p>
 	<a href="https://www.tlu.ee" target="_blank"><img src="pics/tlu_42.jpg" alt="Tallinna Ülikooli õppehoone"></a>
@@ -247,11 +278,30 @@
 </form>
 	<?php echo $photo_html;?>
 <hr>
+
+<hr>
+    <h2>Logi sisse</h2>
+		
+	<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
+	  <br>
+	  <label for="email_input">E-mail (kasutajatunnus):</label><br>
+	  <input type="email" name="email_input" id="email_input" value=" <?php echo $email; ?>"><span><?php echo $email_error; ?></span><br>
+      <br>
+	  <label for="password_input">Salasõna (min 8 tähemärki):</label><br>
+	  <input name="password_input" id="password_input" type="password"><span><?php echo $password_error; ?></span><br>
+      <br>
+	  <input name="user_data_submit" type="submit" value="Login"><span><strong><?php echo $login_error; ?></strong></span>
+	</form>
 	
-</body>
-</html>
+	<p> Või <a href="add_user.php"> loo endale kasutaja </a> </p>
+	
 
 <?php
+echo read_public_photo_page($privacy, $limit);
+?>
+
+<?php
+require_once "footer.php";
 print "lehe avamise hetk ";
 echo $now->format("m-d-Y H:i:s.u");
 ?>

@@ -1,5 +1,5 @@
 <?php
-	require_once "../config_vp2022.php";
+	require_once "../../config_vp2022.php";
 	
 	//loon andmebaasiga ühenduse
 	//server, kasutaja, parool, andmebaas
@@ -34,7 +34,6 @@
 	<title>merkakekw</title>
 </head>
 <body>
-<img src="pics/vp_banner_gs.png" alt="bänner">
 <h1>Merilyn</h1>
 <p>See leht on loodud õppetöö raames ja ei sisalda tõsiseltvõetavat sisu!</p>
 <p>Õppetöö toimus <a href="https://www.tlu.ee" target="_blank">Tallinna Ülikoolis</a> Digitehnoloogiate instituudis.</p>
