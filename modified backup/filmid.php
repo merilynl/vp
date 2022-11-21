@@ -1,8 +1,6 @@
 <?php
 //pealkiri, aasta, kestus, zanr, tootja, lavastaja
-//session_start();
-require_once "classes/SessionManager.class.php";
-SessionManager::sessionStart("vp", 0, "/~litvmeri/vp/", "greeny.cs.tlu.ee");
+session_start();
 require_once "../../config_vp2022.php";
 
 //kontrollin, kas oleme sisse loginud

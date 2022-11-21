@@ -61,14 +61,13 @@
         $conn = new mysqli($GLOBALS["server_host"], $GLOBALS["server_user_name"], $GLOBALS["server_password"], $GLOBALS["database"]);
 		$conn->set_charset("utf8");
         //$stmt = $conn->prepare("SELECT filename, alttext FROM vp_photos_2 WHERE privacy >= ? AND deleted IS NULL");
-		$stmt = $conn->prepare("SELECT vp_photos_2.id, vp_photos_2.alttext, vp_users_2.firstname, vp_users_2.lastname FROM vp_photos_2 JOIN vp_users_2 ON vp_photos_2.userid = vp_users_2.id WHERE vp_photos_2.privacy >= ? AND vp_photos_2.deleted IS NULL GROUP BY vp_photos_2.id ORDER BY vp_photos_2.id DESC LIMIT ?");
+		$stmt = $conn->prepare("SELECT vp_photos_2.filename, vp_photos_2.alttext, vp_users_2.firstname, vp_users_2.lastname FROM vp_photos_2 JOIN vp_users_2 ON vp_photos_2.userid = vp_users_2.id WHERE vp_photos_2.privacy >= ? AND vp_photos_2.deleted IS NULL GROUP BY vp_photos_2.id ORDER BY vp_photos_2.id DESC LIMIT ?");
         echo $conn->error;
         $stmt->bind_param("ii", $privacy, $limit);
-        $stmt->bind_result($id_from_db, $alttext_from_db, $firstname_from_db, $lastname_from_db);
+        $stmt->bind_result($filename_from_db, $alttext_from_db, $firstname_from_db, $lastname_from_db);
         $stmt->execute();
         while($stmt->fetch()){
-			//$photo_html .= '<img src="' .$GLOBALS["gallery_photo_normal_folder"] .$filename_from_db .'" alt="';
-            $photo_html = '<img src="show_public_photo.php?photo=' .$id_from_db .'" alt="';
+			$photo_html .= '<img src="' .$GLOBALS["gallery_photo_normal_folder"] .$filename_from_db .'" alt="';
             if(empty($alttext_from_db)){
                 $photo_html .= "Üleslaetud foto";
             } else {

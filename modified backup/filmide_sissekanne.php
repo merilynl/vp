@@ -1,7 +1,5 @@
 <?php
-    //session_start();
-    require_once "classes/SessionManager.class.php";
-	SessionManager::sessionStart("vp", 0, "/~litvmeri/vp/", "greeny.cs.tlu.ee");
+    session_start();
     require_once "../../config_vp2022.php";
 
     

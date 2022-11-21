@@ -1,7 +1,5 @@
 <?php
-	//session_start();
-	require_once "classes/SessionManager.class.php";
-	SessionManager::sessionStart("vp", 0, "/~litvmeri/vp/", "greeny.cs.tlu.ee");
+	session_start();
 	require_once "../../config_vp2022.php";
 	require_once "fnc_user.php";
 	require_once "fnc_gallery.php";
@@ -109,7 +107,7 @@
 	//loen kataloogi sisu
 	$all_files = array_slice(scandir($photo_dir), 2);
 	//kontrollin kas on ikka foto
-	// configis $allowed_photo_types = ["image/jpeg", "image/png"];
+	$allowed_photo_types = ["image/jpeg", "image/png"];
 	
 	//tsükkel
 	//muutuja väärtuse suurendamine $muutuja = $muutuja + 5 või $muutuja += 5

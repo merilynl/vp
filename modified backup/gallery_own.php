@@ -1,7 +1,5 @@
 <?php
-	//session_start();
-	require_once "classes/SessionManager.class.php";
-	SessionManager::sessionStart("vp", 0, "/~litvmeri/vp/", "greeny.cs.tlu.ee");
+	session_start();
 	//kontrollin, kas oleme sisse loginud
 	if(!isset($_SESSION["user_id"])){
 		header("Location: page.php");
@@ -20,7 +18,7 @@
 	$privacy = 2;
 	$page = 1;
 	$limit = 3;
-	$photo_count = count_photos($privacy);
+	$photo_count = count_own_photos();
 	
 	//kontrollime, mis lehel oleme ja kas selle lehe nr on reaalne
 	if(!isset($_GET["page"]) or $_GET["page"] < 1){
@@ -30,6 +28,8 @@
 	} else {
 		$page = $_GET["page"];
 	}
+	
+	$_SESSION["gallery_own_page"] = $page;
 	
 	$style_sheets = "style/gallery.css";
 	
@@ -41,6 +41,7 @@
 	<li><a href="?logout=1">Logi välja</a></li>
 	<li><a href="home.php">Avalehele</a></li>
 </ul>
+<h2>Oma üles laetud pildid</h2>
 
 <p>
 	<?php
@@ -62,7 +63,7 @@
 
 <div class="gallery">
 
-	<?php echo read_public_photo_thumbs($privacy, $page, $limit);?>
+	<?php echo read_own_photo_thumbs($page, $limit);?>
 </div>
 
 <?php

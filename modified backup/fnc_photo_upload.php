@@ -19,10 +19,10 @@
 	} */
 	
 	
-	/* function create_filename($name_prefix, $file_type){
+	function create_filename($name_prefix, $file_type){
 		$timestamp = microtime(1) * 10000;
 		return $name_prefix . $timestamp ."." .$file_type;
-	} */
+	}
 	
 	//lisasin klassi
 /* 	function create_image($file, $file_type){
