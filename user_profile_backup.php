@@ -18,9 +18,6 @@ if(isset($_GET["logout"])){
 
 require_once "header.php";
 require_once "../../config_vp2022.php";
-require_once "classes/Photoupload.class.php";
-require_once "fnc_photo_upload.php";
-require_once "fnc_profile.php";
 
 
 echo("Sisse logitud: " .$_SESSION["firstname"] ." " .$_SESSION["lastname"])
@@ -64,42 +61,6 @@ echo("Sisse logitud: " .$_SESSION["firstname"] ." " .$_SESSION["lastname"])
 			$conn->close();
 		}
 	}
-
-
-	//$gallery_photo_profile_folder = "photo_upload_profile/";
-	//$gallery_photo_original_profile_folder = "photo_upload_profile_original/";
-	if($_SERVER["REQUEST_METHOD"] == "POST"){
-		if(isset($_POST["user_settings"])){		
-			//kas on foto valitud
-			if(isset($_FILES["photo_input"]["tmp_name"]) and !empty($_FILES["photo_input"]["tmp_name"])){
-					//KLASS
-					$upload = new Photoupload($_FILES["photo_input"]);
-					if(empty($upload->error)){
-						$upload->check_allowed_type($allowed_photo_types);
-						if(empty($upload->error)){
-							$upload->check_size($photo_file_size_limit);
-							if(empty($upload->error)){
-								$upload->create_filename($photo_name_prefix);
-								$upload->resize_photo_thumbnail($profile_photo_max_w, $profile_photo_max_h);
-								$upload->save_photo($gallery_photo_profile_folder .$upload->file_name);
-								if(empty($upload->error)){
-									$upload->move_original_photo($gallery_photo_original_profile_folder .$upload->file_name);
-									if(empty($upload->error)){
-										$upload->error = save_photo_db_profile($upload->file_name);
-										if(empty($upload->error)){
-											$upload->error = "Pilt edukalt üles laetud!";
-										} else {
-											$upload->error = "Pildi üleslaadimisel tekkis tõrkeid!";
-										}
-									}
-								}
-							}
-						}
-					}	
-					unset($upload);	
-				}
-			}
-		}//if photo_submit
 ?>
 <head>
 	<style>
@@ -122,16 +83,12 @@ echo("Sisse logitud: " .$_SESSION["firstname"] ." " .$_SESSION["lastname"])
 	<a href="gallery_photo_upload.php">Fotode üleslaadimine</a>
 	<a href="gallery_public.php">Avalike fotode galerii</a>
 	<a href="gallery_own.php">Oma fotode galerii</a>
-	<a href="home.php">Avalehele</a>
 	<a href="?logout=1">Logi välja</a>
 </nav>
 <br>
-<div class="profile_photo">
-	<?php echo read_profile_photo($_SESSION["user_id"]);?>
-</div>
 <br>
 
-<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data">
+<form method="POST">
 	<label for="color">Vali taustavärv</label>
 	<br>
 	<input type="color" name="bg_color_input">
@@ -141,9 +98,6 @@ echo("Sisse logitud: " .$_SESSION["firstname"] ." " .$_SESSION["lastname"])
 	<input type="color" name="txt_color_input">
 	<br>
 	<textarea name="user_description" rows="5" cols="51" placeholder="Minu lühikirjeldus"></textarea>
-	<br>
-	<label for="photo_input">Vali pildifail</label>
-	<input type="file" name="photo_input" id="photo_input">
 	<br>
 	<input type="submit" id="user_settings" name="user_settings" value="Salvesta sätted">
 </form>

@@ -148,4 +148,19 @@
 		$conn->close();
 		return $notice;
 	}
+
+	function save_photo_db_profile($file_name){
+		$notice = null;
+		$conn = new mysqli($GLOBALS["server_host"], $GLOBALS["server_user_name"], $GLOBALS["server_password"], $GLOBALS["database"]);
+		$conn->set_charset("utf8");
+		$stmt = $conn->prepare("INSERT INTO vp_userprofilephotos (userid, filename) VALUES (?, ?)");
+		echo $conn->error;
+		$stmt->bind_param("is", $_SESSION["user_id"], $file_name);
+		if($stmt->execute() == false){
+		  $notice = 1;
+		}
+		$stmt->close();
+		$conn->close();
+		return $notice;
+	}
 ?>

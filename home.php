@@ -28,6 +28,8 @@ setcookie("lastvisitor", $_SESSION["firstname"] ." " .$_SESSION["lastname"], (86
 //setcookie aegumine negatiivne time()-3000
 
 require_once "header.php";
+require_once "fnc_profile.php";
+require_once "../../config_vp2022.php";
 
 echo("Sisse logitud: " .$_SESSION["firstname"] ." " .$_SESSION["lastname"] ."\n <br>");
 echo("Viimane külastaja: " .$last_visitor ."\n <br>");
@@ -58,6 +60,9 @@ echo("Viimane külastaja: " .$last_visitor ."\n <br>");
 </nav>
 <br>
 <br>
+<div class="profile_photo">
+	<?php echo read_profile_photo($_SESSION["user_id"]);?>
+</div>
 
 </body>
 

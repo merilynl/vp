@@ -18,6 +18,7 @@ if(isset($_GET["logout"])){
 require_once "fnc_photo_upload.php";
 require_once "fnc_general.php";
 require_once "classes/Photoupload.class.php";
+require_once "../../config_vp2022.php";
 
 $file_type = null;
 $photo_error = null;
